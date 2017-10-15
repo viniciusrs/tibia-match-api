@@ -7,7 +7,7 @@ const app = express();
 
 //route user
 const user = require('./routes/users');
-const validation = require('./routes/characters');
+const character = require('./routes/characters');
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -16,11 +16,11 @@ app.get('/user', user.get);
 
 //POST
 app.post('/user', user.post);
-app.post('/user/characters', validation.post);
+app.post('/user/characters', character.post);
 //PUT
-//app.put('/user');
+app.put('/user', user.put);
 
 //DELETE
-//app.delete('/user');
+app.delete('/user', user.delete);
 
 app.listen(3000, () => console.log('Server start, listening on 3000!'));

@@ -3,18 +3,24 @@ ROUTES
 
 /USERS
 
-get  { id: string }
+get { id}
 
-post { username: string, password: string }
+post { username, email, password }
 
-update { id: string, username: string, password: string}
+delete { id }
 
-delete {id: string }
+put { id, newPassword }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /CHARACTERS
 
-get { id: string }
+get { id }
 
-post: { id: string, character: string, token: string }
+post { id, character }
+
+delete { characterName }
+
+put { newCharacterName }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
