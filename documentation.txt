@@ -1,0 +1,20 @@
+ROUTES
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/USERS
+
+get  { id: string }
+
+post { username: string, password: string }
+
+update { id: string, username: string, password: string}
+
+delete {id: string }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/CHARACTERS
+
+get { id: string }
+
+post: { id: string, character: string, token: string }
