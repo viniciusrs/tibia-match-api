@@ -3,7 +3,7 @@ ROUTES
 
 /USERS
 
-get { id}
+get { id }
 
 post { login, email, password }
 
@@ -17,7 +17,7 @@ put { id, newPassword }
 
 get { id }
 
-post { id, character }
+post { id, characterName }
 
 delete { characterName }
 

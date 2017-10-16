@@ -16,12 +16,18 @@ exports.get = async function(req, res){
 
 exports.post = async function(req, res) {
   let user = await signup.createUser(req.body);
-  var created = await db.create('users', req.body);
-  if (created.error){
-    res.status(400).send(created);
+
+  if (user.error){
+    res.status(400).send(user);
   }
   else {
-    res.status(200).send(created);
+    let created = await db.create('users', user);
+      if (created.error){
+        res.status(400).send(created);
+      }
+      else {
+        res.status(200).send(created);
+      }
   }
 }
 

@@ -1,6 +1,7 @@
 'use strict';
 const request = require('request');
 const cheerio = require('cheerio');
+const details = require('./getchardetails');
 const url = 'https://secure.tibia.com/community/?subtopic=characters&name=';
 
 exports.validateCharacter = async function(_character, _token) {
@@ -20,38 +21,25 @@ exports.validateCharacter = async function(_character, _token) {
     request(options, (err, response, body) => {
       if(err) {
         resolve(false);
+        return;
       }
 
       let $ = cheerio.load(body);
 
-      let characterDetails = getCharacterDetails($);
+      let characterDetails = details.getCharacterDetails($);
 
       if(!characterDetails.comment) {
         resolve(false);
+        return;
       }
       else if(characterDetails.comment.indexOf(token) != -1) {
-        resolve(true);
+        resolve(characterDetails);
+        return;
       }
       else {
         resolve(false);
+        return;
       }
     });
   });
-}
-
-function getCharacterDetails($) {
-  var characterDetails = {};
-  $('.Border_3 > .BoxContent > table:nth-child(1) > tbody > tr').each((i) => {
-    var prop =  $(`.Border_3 > .BoxContent > table:nth-child(1) > tbody > tr:nth-child(${i}) > td:nth-child(1)`).text()
-                                                                                                                .replace(/[^A-Z0-9]/ig, "")
-                                                                                                                .toLowerCase()
-                                                                                                                .trim();
-    var value =  $(`.Border_3 > .BoxContent > table:nth-child(1) > tbody > tr:nth-child(${i}) > td:nth-child(2)`).text()
-                                                                                                                 .trim();
-    if (prop) {
-      characterDetails[prop] = value;
-    }
-  })
-
-  return characterDetails;
 }

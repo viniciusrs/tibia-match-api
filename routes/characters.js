@@ -1,17 +1,25 @@
+'use strict';
+
 const validation = require('../scripts/validation');
 const db = require('../db');
+const cc = require('../scripts/createchar');
 
-exports.get = function(req, res){
-  db.read('characters', {"name" : "Nec Divinus"}, res);
+exports.get = async function(req, res){
+  let char = await db.read('characters', req.body.characterName);
+  if (char.erro){
+    res.status(400).send(char);
+  }
+  else {
+    res.status(200).send(char);
+  }
 }
 
 exports.post = async function(req, res) {
-  let valid = await validation.validateCharacter(req.body.character, req.body.token);
-
-  if(!valid) {
-    res.status(401).send({error: 'Unauthorized'});
+  let char = await cc.createChar(req.body);
+  if(char.error){
+    res.status(400).send(char);
   }
   else {
-    db.create('characters', req.body, res);
+    res.status(200).send({success : "Created character"});
   }
 }
