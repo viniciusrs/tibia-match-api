@@ -7,88 +7,102 @@ function connect(execute) {
   MongoClient.connect('mongodb://tibiamatch:4T8VJLyN74NqPjRJ@ds033018.mlab.com:33018/tibia-match-db', execute)
 }
 
-exports.create = function(obj, body, res) {
-  connect((err, database) => {
-    if (err) {
-      res.status(500).send({error: 'Internal Server Error'});
-      return;
-    }
+exports.create = async function(obj, body) {
+  return new Promise((resolve, reject) => {
+    connect((err, database) => {
+      if (err) {
+        resolve( { error : "Internal Server Error" } );
+        return;
+      }
 
-    var db = database;
+      var db = database;
 
-    db.collection(obj).insert(body, (err, result) => {
-        if(err) {
-          res.status(400).send({error: 'Bad Request'});
-        };
-        res.status(200).send({ success: 'Created' });
+      db.collection(obj).insert(body, (err, result) => {
+          if(err) {
+            resolve( { error : "Bad Request" } );
+            return;
+          };
+          resolve( { success : "Created" } );
+          return;
+      });
+
+      db.close();
     });
-
-    db.close();
   });
-};
+}
 
-exports.update = function(coll, query, newValues, res) {
-  connect((err, database) => {
-    if (err) {
-      res.status(500).send({error: 'Internal Server Error'});
-      return;
-    }
+exports.update = async function(coll, query, newValues) {
+  return new Promise((resolve, reject) => {
+    connect((err, database) => {
+      if (err) {
+        resolve( { error : "Internal Server Error" } );
+        return;
+      }
 
-    var db = database;
+      var db = database;
 
-      var updated = db.collection(coll).updateOne(query, newValues, (err, updated) => {
-        if (updated.matchedCount){
-          res.status(200).send({success: 'Updated'});
-        }
-        else{
-          res.status(400).send({error: 'Bad Request'});
-        }
-      });
+        var updated = db.collection(coll).updateOne(query, newValues, (err, updated) => {
+          if (updated.matchedCount){
+            resolve( {success: 'Updated'} );
+            return;
+          }
+          else{
+            resolve( {error: 'Bad Request'} );
+            return;
+          }
+        });
 
-    db.close();
+      db.close();
+    });
   });
 
 }
 
-exports.delete = function(coll, query, res ) {
-  connect((err, database) => {
-    if (err) {
-      res.status(500).send({error: 'Internal Server Error'});
-      return;
-    }
+exports.delete = async function(coll, query) {
+  return new Promise((resolve, reject) => {
+    connect((err, database) => {
+      if (err) {
+        resolve( {error: 'Internal Server Error'} );
+        return;
+      }
 
-    var db = database;
-      db.collection(coll).deleteOne(query, (err, deleted) => {
-        if (deleted.deletedCount){
-          res.status(200).send({success: 'Deleted'});
-        }
-        else{
-          res.status(400).send({error: 'Bad Request'});
-        }
-      });
-    db.close();
+      var db = database;
+        db.collection(coll).deleteOne(query, (err, deleted) => {
+          if (deleted.deletedCount){
+            resolve( {success: 'Deleted'} );
+            return;
+          }
+          else{
+            resolve( {error: 'Bad Request'} );
+            return;
+          }
+        });
+      db.close();
+    });
   });
 }
 
-exports.read = function(coll, query, res) {
-  connect((err, database) => {
-    if(err) {
-      res.status(500).send({error: 'Internal Server Error'});
-      return;
-    }
+exports.read = async function(coll, query) {
+  return new Promise((resolve, reject) => {
+    connect((err, database) => {
+      if(err) {
+        resolve( {error: 'Internal Server Error'} );
+        return;
+      }
 
-    var db = database;
-      db.collection(coll).find(query).toArray( (err, docs) => {
-        if (err) throw err;
-        //console.log(docs);
-        if (docs.length){
-          res.send(docs);
-        }
-        else{
-          res.status(400).send({error: 'Bad Request'});
-        }
-      });
+      var db = database;
+        db.collection(coll).find(query).toArray( (err, docs) => {
+          if (docs.length){
+            resolve(docs);
+            return;
+          }
+          else{
+            resolve( {error: 'Bad Request'} );
+            return;
+          }
+        });
 
-    db.close();
+      db.close();
+    });
   });
 }

@@ -6,7 +6,7 @@ exports.get = function(req, res){
 }
 
 exports.post = async function(req, res) {
-  var valid = await validation.validateCharacter(req.body.character, req.body.token);
+  let valid = await validation.validateCharacter(req.body.character, req.body.token);
 
   if(!valid) {
     res.status(401).send({error: 'Unauthorized'});

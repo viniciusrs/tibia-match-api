@@ -5,7 +5,7 @@ ROUTES
 
 get { id}
 
-post { username, email, password }
+post { login, email, password }
 
 delete { id }
 

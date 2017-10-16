@@ -5,10 +5,10 @@ const url = 'https://secure.tibia.com/community/?subtopic=characters&name=';
 
 exports.validateCharacter = async function(_character, _token) {
   return new Promise((resolve, reject) => {
-    var character = _character;
-    var token = _token;
+    let character = _character;
+    let token = _token;
 
-    var options = {
+    let options = {
       url: url + character,
       method: 'GET',
       headers: {
@@ -19,13 +19,12 @@ exports.validateCharacter = async function(_character, _token) {
 
     request(options, (err, response, body) => {
       if(err) {
-        res.status(500).send({error: 'Internal Server Error'});
         resolve(false);
       }
 
-      var $ = cheerio.load(body);
+      let $ = cheerio.load(body);
 
-      var characterDetails = getCharacterDetails($);
+      let characterDetails = getCharacterDetails($);
 
       if(!characterDetails.comment) {
         resolve(false);
