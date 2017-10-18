@@ -9,7 +9,7 @@ post { login, email, password }
 
 delete { id }
 
-put { id, newPassword }
+put { id, newValues: {field: newValue } }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

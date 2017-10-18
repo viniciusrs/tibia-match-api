@@ -5,7 +5,16 @@ const MongoDB = require('mongodb');
 const signup = require('../scripts/signup');
 
 exports.get = async function(req, res){
-  let read = await db.read('users', {"tonicola":"turbinina"});
+
+  let read;
+
+  if(req.body.id){
+    read = await db.read('users', {"_id": new MongoDB.ObjectID(req.body.id)});
+  }
+  else {
+    read = await db.read('user', req.body.login)
+  }
+
   if (read.error){
     res.status(400).send(read);
   }
@@ -32,7 +41,7 @@ exports.post = async function(req, res) {
 }
 
 exports.delete = async function(req, res){
-  let deleted = await db.delete('users', req.body);
+  let deleted = await db.delete('users', req.body.id);
   if (deleted.error){
     res.status(400).send(deleted)
   }
@@ -42,7 +51,7 @@ exports.delete = async function(req, res){
 }
 
 exports.put = async function(req, res){
-  let updated = await db.update('users', {"tonicola" : "turbi22ninha"}, {$set : {"tonicola" : "aaaaa"}});
+  let updated = await db.update('users', req.body.id , {$set : req.body.newValue});
   if (updated.error){
     res.status(400).send(updated);
   }
