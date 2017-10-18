@@ -1,25 +1,16 @@
 'use strict';
 
 const db = require('../db');
-const MongoDB = require('mongodb');
 const signup = require('../scripts/signup');
 
 exports.get = async function(req, res){
+    let users = await db.read('users',{});
 
-  let read;
-
-  if(req.body.id){
-    read = await db.read('users', {"_id": new MongoDB.ObjectID(req.body.id)});
-  }
-  else {
-    read = await db.read('user', req.body.login)
-  }
-
-  if (read.error){
-    res.status(400).send(read);
-  }
-  else {
-    res.send(read);
+    if (users.error){
+      res.status(400).send(users);
+    }
+    else {
+      res.send(users);
     }
 }
 
@@ -37,16 +28,6 @@ exports.post = async function(req, res) {
       else {
         res.status(200).send(created);
       }
-  }
-}
-
-exports.delete = async function(req, res){
-  let deleted = await db.delete('users', req.body.id);
-  if (deleted.error){
-    res.status(400).send(deleted)
-  }
-  else {
-    res.status(200).send(deleted);
   }
 }
 

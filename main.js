@@ -8,9 +8,11 @@ const verifyToken = require('./scripts/verifytoken');
 
 
 //route user
-const user = require('./routes/users');
+const users = require('./routes/users');
 const character = require('./routes/characters');
-const login = require('./routes/login')
+const login = require('./routes/login');
+const user = require('./routes/user');
+
 
 app.use(bodyParser.json());
 
@@ -21,19 +23,25 @@ app.use(function(req, res, next) {
 });
 
 //GET
-app.get('/user', user.get);
+app.get('/users', users.get);
 
 //POST
-app.post('/user', user.post);
-app.post('/user/characters', character.post);
+app.post('/users', users.post);
+app.get('/users/:id', user.get)
+app.post('/users/characters', character.post);
 //router.post('login', verifyToken, login.post);
 router.get('/protected', verifyToken, );
 
 //PUT
-app.put('/user', user.put);
+app.put('/users', users.put);
 
-//DELETE
-app.delete('/user', user.delete);
+
+
+const search = require('./routes/search');
+
+//route search
+//POST
+app.post('/search', search.post);
 
 app.listen(3000, () => console.log('Server start, listening on 3000!'));
 
