@@ -3,8 +3,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const router = express.Router();
-const verifyToken = require('./scripts/verifytoken');
 
 
 //route user
@@ -24,13 +22,12 @@ app.use(function(req, res, next) {
 
 //GET
 app.get('/users', users.get);
+app.get('/users/:id', user.get)
 
 //POST
 app.post('/users', users.post);
-app.get('/users/:id', user.get)
 app.post('/users/characters', character.post);
-//router.post('login', verifyToken, login.post);
-router.get('/protected', verifyToken, );
+app.post('/login', login.post);
 
 //PUT
 app.put('/users', users.put);
@@ -44,5 +41,3 @@ const search = require('./routes/search');
 app.post('/search', search.post);
 
 app.listen(3000, () => console.log('Server start, listening on 3000!'));
-
-module.exports = router;
