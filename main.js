@@ -22,7 +22,8 @@ app.use(function(req, res, next) {
 
 //GET
 app.get('/users', users.get);
-app.get('/users/:id', user.get)
+app.get('/users/:id', user.get);
+app.get('/users/characters/:id', character.get);
 
 //POST
 app.post('/users', users.post);

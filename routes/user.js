@@ -3,7 +3,7 @@ const MongoDB = require('mongodb');
 
 exports.get = async function(req, res) {
 
-  let user = await db.read('users', {"_id": new MongoDB.ObjectID(req.params.id)});
+  let user = await db.readOne('users', {"_id": new MongoDB.ObjectID(req.params.id)});
 
   if (user.error){
     res.status(400).send(user);

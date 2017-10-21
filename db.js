@@ -91,9 +91,34 @@ exports.read = async function(coll, query) {
       }
 
       var db = database;
-        db.collection(coll).find(query).toArray( (err, docs) => {
-          if (docs.length){
-            resolve(docs);
+        db.collection(coll).find(query).toArray( (err, result) => {
+          if (result.length){
+            resolve(result);
+            return;
+          }
+          else{
+            resolve( {error: 'Bad Request'} );
+            return;
+          }
+        });
+
+      db.close();
+    });
+  });
+}
+
+exports.readOne = async function(coll, query) {
+  return new Promise((resolve, reject) => {
+    connect((err, database) => {
+      if(err) {
+        resolve( {error: 'Internal Server Error'} );
+        return;
+      }
+
+      var db = database;
+        db.collection(coll).findOne(query, (err, result) => {
+          if (result){
+            resolve(result);
             return;
           }
           else{

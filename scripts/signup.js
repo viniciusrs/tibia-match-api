@@ -2,7 +2,7 @@
 
 const randtoken = require('rand-token');
 const db = require('../db');
-const sha512 = require('sha512')
+const sha512 = require('js-sha512');
 
 function validateEmail(email) {
     let mailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -17,11 +17,11 @@ exports.createUser = async function(object){
       }
 
       let salt = randtoken.generate(16);
-      console.log(salt);
-      console.log(object.password);
-      console.log(`${object.password}${salt}`);
-      let password = sha512("toni");
-      console.log(password);
+      // console.log(salt);
+      // console.log(object.password);
+      // console.log(`${object.password}${salt}`);
+      let password = sha512(`${object.password}${salt}`);
+      //console.log(password);
 
       let user = { login: object.login,
                    password: password,
