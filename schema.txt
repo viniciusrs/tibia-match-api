@@ -1,0 +1,25 @@
+USER {
+  id,
+  login UNIQUE,
+  password,
+  salt,
+  email UNIQUE,
+  level DEFAULT 0,
+  token,
+  premium DEFAULT null,
+  reputation DEFAULT 0,
+  rank DEFAULT 0,
+  experience DEFAULT 0,
+  gold DEFAULT 0
+}
+
+CHARACTER {
+  id,
+  name,
+  sex,
+  vocation,
+  level,
+  world,
+  guildMembership,
+  userId
+}

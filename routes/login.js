@@ -7,7 +7,7 @@ const sha512 = require('js-sha512');
 
 exports.post = async function(req, res) {
 
-  let user = await db.readOne('users', {"login" : req.body.login});
+  let user = await db.readOne('user', {"login" : req.body.login});
 
   if (!user.error){
     let salt = user.salt;
@@ -16,9 +16,9 @@ exports.post = async function(req, res) {
     if (pw === password){
       let token = jwt.sign({
         data: user.login},
-        'chicney',
+        'jmprZX5D0VosRSvckBLRQCd1paCwnyAN',
         { expiresIn: '1h' });
-        res.json({error:false, token: token});
+        res.json({error:false, token: token, id: user._id, login: user.login});
         return;
     }
     else{

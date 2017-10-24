@@ -10,28 +10,35 @@ function validateEmail(email) {
 }
 
 exports.createUser = async function(object){
-    let exists = await db.read('users', {"login" : object.login});
+    let exists = await db.read('user', {"login" : object.login});
     if (exists.error){
       if (!validateEmail(object.email)){
-        return ( {error: 'Invalid email '} );
+        return ( {error: 'Invalid email'} );
       }
+      let checkEmail = await db.read('user', {"email" : object.email});
+      if (checkEmail.error){
+        let salt = randtoken.generate(16);
+        let password = sha512(`${object.password}${salt}`);
 
-      let salt = randtoken.generate(16);
-      // console.log(salt);
-      // console.log(object.password);
-      // console.log(`${object.password}${salt}`);
-      let password = sha512(`${object.password}${salt}`);
-      //console.log(password);
+        let user = { login: object.login,
+                     password: password,
+                     email: object.email,
+                     salt: salt,
+                     token: randtoken.generate(64),
+                     premium: false,
+                     level: 0,
+                     reputation: 0,
+                     rank: 0,
+                     experience: 0,
+                     gold: 0
+                   };
 
-      let user = { login: object.login,
-                   password: password,
-                   email: object.email,
-                   token: randtoken.generate(64),
-                   salt: salt
-                 };
-
-      return (user);
-
+        return (user);
+        
+      }
+      else {
+        return ( {error: 'Email already in use'} );
+      }
     }
     else{
       return ( {error : 'User already exists'} );

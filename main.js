@@ -3,6 +3,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const verifyToken = require('./scripts/verifytoken');
+const jwt = require('express-jwt');
 
 
 //route user
@@ -27,7 +29,7 @@ app.get('/users/characters/:id', character.get);
 
 //POST
 app.post('/users', users.post);
-app.post('/users/characters', character.post);
+app.post('/users/characters', verifyToken, character.post);
 app.post('/login', login.post);
 
 //PUT
