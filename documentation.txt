@@ -9,6 +9,17 @@ post { login, email, password }
 
 put { id, newValues: {field: newValue } }
 
+                  id: user._id, 
+                  name: user.login,
+                  email: user.email,
+                  token: user.token,
+                  premium: user.premium,
+                  level: user.level,
+                  reputation: user.reputation,
+                  rank: user.rank,
+                  experience: user.experience,
+                  gold: user.gold
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /USER/:id

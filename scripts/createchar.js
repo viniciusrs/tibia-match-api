@@ -31,7 +31,7 @@ exports.createChar = async function(obj){
       }
     }
     else{
-      return ({error: 'Cant find character activate token'});
+      return ({error: 'Cant find character activate token' + char});
     }
   }
   else{

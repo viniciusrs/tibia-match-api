@@ -12,7 +12,7 @@ exports.post = async function(req, res) {
   }
 
   if (search.error){
-    res.status(400).send(search);
+    res.send(search);
   }
   else {
     res.send(search);

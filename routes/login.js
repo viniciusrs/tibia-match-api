@@ -18,16 +18,29 @@ exports.post = async function(req, res) {
         data: user.login},
         'jmprZX5D0VosRSvckBLRQCd1paCwnyAN',
         { expiresIn: '1h' });
-        res.json({error:false, token: token, id: user._id, login: user.login});
+        res.json({ 
+                  error:false, 
+                  authToken: token, 
+                  id: user._id, 
+                  name: user.login,
+                  email: user.email,
+                  token: user.token,
+                  premium: user.premium,
+                  level: user.level,
+                  reputation: user.reputation,
+                  rank: user.rank,
+                  experience: user.experience,
+                  gold: user.gold
+                });
         return;
     }
     else{
-      res.status(400).send({error : "User/pass incorrect"});
+      res.send({error : "User/pass incorrect"});
       return;
     }
   }
   if (user.error === 'Bad Request'){
-    res.status(400).send({error : "User doesnt exists"});
+    res.send({error : "User doesnt exists"});
     return;
   }
   else {
