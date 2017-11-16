@@ -7,7 +7,7 @@ const MongoDB = require('mongodb');
 
 exports.createChar = async function(obj){
 
-  let exists = await db.readOne('character', {"name" : obj.characterName});
+  let exists = await db.read('character', {"name" : obj.characterName});
   if (exists.error){
     let user = await db.readOne('user', {"_id": new MongoDB.ObjectID(obj.id)});
     let char = await validation.validateCharacter(obj.characterName, user.token);
@@ -31,7 +31,7 @@ exports.createChar = async function(obj){
       }
     }
     else{
-      return ({error: 'Cant find character activate token' + char});
+      return ({error: 'Cant find character activate token'});
     }
   }
   else{

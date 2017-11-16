@@ -16,7 +16,7 @@ exports.get = async function(req, res){
 
 exports.post = async function(req, res) {
   let char = await cc.createChar(req.body);
-  if(char.error){
+  if(char.error) {
     res.status(400).send(char);
   }
   else {
