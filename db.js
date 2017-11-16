@@ -91,7 +91,7 @@ exports.read = async function(coll, query) {
       }
 
       var db = database;
-        db.collection(coll).find(query).toArray( (err, result) => {
+        db.collection(coll).find(query).collation( { locale: 'en', strength: 1 }).toArray( (err, result) => {
           if (result.length){
             resolve(result);
             return;
