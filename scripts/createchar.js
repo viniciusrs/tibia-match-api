@@ -13,6 +13,14 @@ exports.createChar = async function(obj){
     let char = await validation.validateCharacter(obj.characterName, user.token);
 
     if(char){
+      let firstOutfit;
+
+      if (char.sex === 'male') {
+        firstOutfit = 'citzen-m';
+      }
+      else {
+        firstOutfit = 'citzen-f';
+      }
       let character = {
           name: char.name,
           sex: char.sex,
@@ -20,7 +28,9 @@ exports.createChar = async function(obj){
           level: char.level,
           world: char.world,
           guildMembership: char.guildmembership,
-          userId: obj.id
+          userId: obj.id,
+          outfits: [firstOutfit],
+          currentOutfit: firstOutfit
       }
       let createChar = await db.create('character', character);
       if (createChar.error){

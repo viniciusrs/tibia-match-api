@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods",  "PUT, POST, DELETE, GET");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
   next();
 });
@@ -30,6 +31,7 @@ app.get('/users/characters/:id', character.get);
 //POST
 app.post('/users', users.post);
 app.post('/users/characters', verifyToken, character.post);
+app.put('/users/characters', verifyToken, character.put);
 app.post('/login', login.post);
 
 //PUT
